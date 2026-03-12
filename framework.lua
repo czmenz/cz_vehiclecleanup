@@ -20,11 +20,38 @@ end)
 
 
 function Framework.Notify(source, message)
-    TriggerClientEvent("cz_notifysystem:notify", source, "info", Config.NotifyTitle, message, 5000)
+    if Framework.Type == "esx" then
+        local xPlayer = ESX.GetPlayerFromId(source)
+        if xPlayer then
+            TriggerClientEvent('esx:showNotification', source, message)
+        end
+    elseif Framework.Type == "qb" then
+        TriggerClientEvent('QBCore:Notify', source, message, 'primary', 5000)
+    else
+        TriggerClientEvent('chat:addMessage', source, {
+            color = {255, 0, 0},
+            args = {Config.NotifyTitle or "VehicleCleanup", message}
+        })
+    end
 end
 
 function Framework.NotifyAll(message)
-    TriggerClientEvent("cz_notifysystem:notify", -1, "info", Config.NotifyTitle, message, 5000)
+    if Framework.Type == "esx" then
+        local xPlayers = ESX.GetPlayers()
+        for _, src in ipairs(xPlayers) do
+            TriggerClientEvent('esx:showNotification', src, message)
+        end
+    elseif Framework.Type == "qb" then
+        local players = QBCore.Functions.GetPlayers()
+        for _, src in ipairs(players) do
+            TriggerClientEvent('QBCore:Notify', src, message, 'primary', 5000)
+        end
+    else
+        TriggerClientEvent('chat:addMessage', -1, {
+            color = {255, 0, 0},
+            args = {Config.NotifyTitle or "VehicleCleanup", message}
+        })
+    end
 end
 
 

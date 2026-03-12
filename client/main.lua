@@ -31,7 +31,7 @@ RegisterNetEvent("cz_vehiclecleanup:requestPlate", function()
     end
     local vehicle = GetVehiclePedIsIn(ped, false)
     local plate = GetVehicleNumberPlateText(vehicle)
-    plate = string.gsub(plate, "%s+", "") -- odstraní mezery
+    plate = string.gsub(plate, "%s+", "")
     TriggerServerEvent("cz_vehiclecleanup:addIgnorePlate", string.upper(plate))
 end)
 
