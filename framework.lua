@@ -38,13 +38,17 @@ end
 function Framework.NotifyAll(message)
     if Framework.Type == "esx" then
         local xPlayers = ESX.GetPlayers()
-        for _, src in ipairs(xPlayers) do
-            TriggerClientEvent('esx:showNotification', src, message)
+        if xPlayers then
+            for _, src in ipairs(xPlayers) do
+                TriggerClientEvent('esx:showNotification', src, message)
+            end
         end
     elseif Framework.Type == "qb" then
         local players = QBCore.Functions.GetPlayers()
-        for _, src in ipairs(players) do
-            TriggerClientEvent('QBCore:Notify', src, message, 'primary', 5000)
+        if players then
+            for _, src in ipairs(players) do
+                TriggerClientEvent('QBCore:Notify', src, message, 'primary', 5000)
+            end
         end
     else
         TriggerClientEvent('chat:addMessage', -1, {
